@@ -5,6 +5,7 @@ allowing the root-level scripts to delegate execution to the active student's co
 
 import sys
 import importlib.util
+import types
 from pathlib import Path
 
 def load_personal_module(task_name: str):
@@ -32,13 +33,35 @@ def load_personal_module(task_name: str):
             if str(src_dir) not in sys.path:
                 sys.path.insert(0, str(src_dir))
                 
-            # Create module spec and load it
-            spec = importlib.util.spec_from_file_location(task_name, str(file_path))
-            if spec is not None and spec.loader is not None:
-                module = importlib.util.module_from_spec(spec)
-                # Ensure the module is registered under the correct name in sys.modules
+            # Create a virtual package 'personal_active' to support relative imports
+            pkg_name = "personal_active"
+            if pkg_name not in sys.modules:
+                pkg_module = types.ModuleType(pkg_name)
+                pkg_module.__path__ = [str(src_dir)]
+                pkg_module.__package__ = pkg_name
+                sys.modules[pkg_name] = pkg_module
+
+            # Load the module under the package namespace
+            full_module_name = f"{pkg_name}.{task_name}"
+            
+            # If the module was already loaded, return it
+            if full_module_name in sys.modules:
+                module = sys.modules[full_module_name]
+                # Ensure aliases are also in sys.modules
                 sys.modules[task_name] = module
                 sys.modules[f"src.{task_name}"] = module
+                return module
+                
+            spec = importlib.util.spec_from_file_location(full_module_name, str(file_path))
+            if spec is not None and spec.loader is not None:
+                module = importlib.util.module_from_spec(spec)
+                module.__package__ = pkg_name
+                
+                # Register in sys.modules under all expected names
+                sys.modules[full_module_name] = module
+                sys.modules[task_name] = module
+                sys.modules[f"src.{task_name}"] = module
+                
                 spec.loader.exec_module(module)
                 return module
                 
