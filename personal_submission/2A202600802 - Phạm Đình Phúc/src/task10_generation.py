@@ -101,10 +101,13 @@ def format_context(chunks: list[dict]) -> str:
     """
     context_parts = []
     for i, chunk in enumerate(chunks, 1):
-        source = chunk.get("metadata", {}).get("source", f"Source {i}")
-        doc_type = chunk.get("metadata", {}).get("type", "unknown")
+        metadata = chunk.get("metadata", {})
+        source = metadata.get("source", f"Source {i}")
+        title = metadata.get("title", source)
+        url = metadata.get("url", "")
+        doc_type = metadata.get("type", "unknown")
         context_parts.append(
-            f"[Document {i} | Source: {source} | Type: {doc_type}]\n"
+            f"[Document {i} | Title: {title} | Source: {source} | URL: {url} | Type: {doc_type}]\n"
             f"{chunk.get('content', '')}\n"
         )
     return "\n---\n".join(context_parts)

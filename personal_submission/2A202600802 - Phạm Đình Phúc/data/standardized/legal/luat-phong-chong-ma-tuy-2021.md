@@ -1,6 +1,11 @@
-# luat-phong-chong-ma-tuy-2021
+# Luật Phòng, chống ma túy 2021
 
-**Source:** luat-phong-chong-ma-tuy-2021.pdf
+**Title:** Luật Phòng, chống ma túy 2021
+**Source:** https://congan.sonla.gov.vn/wp-content/uploads/2022/05/1.-Luat-PCMT-2021.pdf
+**URL:** https://congan.sonla.gov.vn/wp-content/uploads/2022/05/1.-Luat-PCMT-2021.pdf
+**Crawled:** local-pdf-extract
+
+---
 
 QUỐC HỘI 
  
