@@ -1,8 +1,0 @@
-# Diễn viên Hữu Tín bị phạt 7 năm 6 tháng tù vì tổ chức sử dụng ma túy
-
-**Source:** https://vnexpress.net/dien-vien-huu-tin-bi-phat-7-nam-6-thang-tu-vi-to-chuc-su-dung-ma-tuy-4600293.html
-**Crawled:** 2026-06-08T15:11:17.823475
-
----
-
-Tòa án nhân dân quận 8, TP HCM đã tuyên phạt diễn viên hài Hữu Tín mức án 7 năm 6 tháng tù về tội tổ chức sử dụng trái phép chất ma túy. Hữu Tín thừa nhận hành vi tụ tập bạn bè sử dụng ma túy tại căn hộ thuê...

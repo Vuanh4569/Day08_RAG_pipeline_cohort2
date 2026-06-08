@@ -1,8 +1,0 @@
-# Người mẫu An Tây và ca sĩ Chi Dân bị bắt: Kiều nữ và đại lộ lộ diện
-
-**Source:** https://tuoitre.vn/nguoi-mau-an-tay-va-ca-si-chi-dan-bi-bat-kieu-nu-va-dai-lo-lo-dien-20241114170322339.htm
-**Crawled:** 2026-06-08T15:11:17.823473
-
----
-
-Vụ bắt giữ người mẫu An Tây và ca sĩ Chi Dân vì liên quan đến ma túy đang gây rúng động dư luận xã hội. Vụ việc một lần nữa báo động tình trạng sử dụng ma túy trong giới nghệ sĩ và người nổi tiếng...

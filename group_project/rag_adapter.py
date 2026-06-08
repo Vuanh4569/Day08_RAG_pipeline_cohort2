@@ -77,8 +77,10 @@ def format_sources_markdown(chunks: list[dict]) -> str:
 
 def _load_personal_pipeline():
     from src import task10_generation
+    from src import task4_chunking_indexing
     from src.task9_retrieval_pipeline import retrieve
 
+    task4_chunking_indexing.STANDARDIZED_DIR = DAY08_DIR / "data" / "standardized"
     return retrieve, task10_generation
 
 
