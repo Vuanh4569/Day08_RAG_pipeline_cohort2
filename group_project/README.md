@@ -3,6 +3,7 @@ Tên thành viên nhóm:
 Hà Vũ Anh (2A202600571)
 Phạm Đình Phúc (2A202600802)
 Nguyễn Tuấn Anh (2A202600758)
+Đỗ Văn Cung (2A202600793)
 ## Mục Tiêu
 
 Sau khi hoàn thành bài cá nhân, nhóm xây dựng **RAG Chatbot** trả lời câu hỏi về pháp luật ma túy và tin tức liên quan, có citation và hiển thị source documents.
