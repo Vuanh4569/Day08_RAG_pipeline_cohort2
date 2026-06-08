@@ -25,18 +25,17 @@ MANIFEST
 
 # Environment
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-.venv
-venv
-ENV
-env/
+.env.*
+!.env.example
+.venv/
 venv/
+env/
+ENV/
 
 # Pytest / Coverage
 .pytest_cache/
+.mypy_cache/
+.ruff_cache/
 .htmlcov/
 .tox/
 .nosexy/
@@ -49,8 +48,9 @@ coverage.xml
 *.py,cover
 .hypothesis/
 
-# macOS
+# OS/editor noise
 .DS_Store
+Thumbs.db
 .AppleDouble
 .LSOverride
 Icon
