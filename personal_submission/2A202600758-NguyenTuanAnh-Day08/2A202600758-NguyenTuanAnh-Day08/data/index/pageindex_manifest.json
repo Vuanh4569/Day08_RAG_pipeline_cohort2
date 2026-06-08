@@ -1,0 +1,71 @@
+{
+  "mode": "local-vectorless-fallback",
+  "reason": "pageindex-upload-failed",
+  "pageindex_api_configured": true,
+  "documents": [
+    {
+      "metadata": {
+        "source": "luat-phong-chong-ma-tuy-2021.md",
+        "path": "legal\\luat-phong-chong-ma-tuy-2021.md",
+        "type": "legal"
+      },
+      "chars": 772
+    },
+    {
+      "metadata": {
+        "source": "nghi-dinh-105-2021.md",
+        "path": "legal\\nghi-dinh-105-2021.md",
+        "type": "legal"
+      },
+      "chars": 15372
+    },
+    {
+      "metadata": {
+        "source": "nghi-dinh-116-2021.md",
+        "path": "legal\\nghi-dinh-116-2021.md",
+        "type": "legal"
+      },
+      "chars": 742
+    },
+    {
+      "metadata": {
+        "source": "binh-gold-duong-tinh-ma-tuy-cao-toc.md",
+        "path": "news\\binh-gold-duong-tinh-ma-tuy-cao-toc.md",
+        "type": "news"
+      },
+      "chars": 873
+    },
+    {
+      "metadata": {
+        "source": "chau-viet-cuong-tam-giu-hinh-su.md",
+        "path": "news\\chau-viet-cuong-tam-giu-hinh-su.md",
+        "type": "news"
+      },
+      "chars": 912
+    },
+    {
+      "metadata": {
+        "source": "chau-viet-cuong-xet-xu-ngao-da.md",
+        "path": "news\\chau-viet-cuong-xet-xu-ngao-da.md",
+        "type": "news"
+      },
+      "chars": 918
+    },
+    {
+      "metadata": {
+        "source": "chi-dan-an-tay-truy-to-duong-day-ma-tuy.md",
+        "path": "news\\chi-dan-an-tay-truy-to-duong-day-ma-tuy.md",
+        "type": "news"
+      },
+      "chars": 969
+    },
+    {
+      "metadata": {
+        "source": "miu-le-cat-ba-cong-an-lam-viec.md",
+        "path": "news\\miu-le-cat-ba-cong-an-lam-viec.md",
+        "type": "news"
+      },
+      "chars": 952
+    }
+  ]
+}
