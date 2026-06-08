@@ -1,24 +1,25 @@
-# Bài Tập Nhóm — Search Engine / RAG Chatbot
+# Bài Tập Nhóm — RAG Chatbot
 
 ## Mục Tiêu
 
-Sau khi hoàn thành bài cá nhân, nhóm ngồi lại để xây dựng **1 trong 2 sản phẩm**:
+Sau khi hoàn thành bài cá nhân, nhóm xây dựng **RAG Chatbot** trả lời câu hỏi về pháp luật ma túy và tin tức liên quan, có citation và hiển thị source documents.
 
 ---
 
-## Yêu cầu 1:  Sản phẩm nhóm RAG Chatbot
+## Yêu cầu 1: Sản phẩm nhóm RAG Chatbot
 
-Xây dựng chatbot trả lời câu hỏi về pháp luật ma tuý và tin tức liên quan.
+Nhóm triển khai Gradio chatbot trong `group_project/app.py`.
 
-**Yêu cầu:**
-- Giao diện chat (Streamlit / Gradio / Chainlit)
-- Trả lời có citation (dựa trên Task 10)
-- Hỗ trợ follow-up questions (conversation memory)
-- Hiển thị source documents đã dùng
+**Tính năng đã triển khai:**
+- Giao diện chat bằng Gradio.
+- Trả lời có citation dựa trên metadata của source chunks.
+- Hỗ trợ follow-up questions bằng conversation memory ngắn.
+- Hiển thị source documents đã dùng, gồm source, type, score, retrieval mode và content preview.
+- Có controls cho `top_k`, bật/tắt memory và bật/tắt reranking.
 
 **Stack gợi ý:**
 ```
-Chainlit/Streamlit → Retrieval (Task 9) → Generation (Task 10) → Display
+Gradio → rag_adapter.py → Retrieval (Task 9) → Generation (Task 10) → Display answer + sources
 ```
 
 ---
@@ -171,8 +172,37 @@ run_dashboard()
 ## Kiến Trúc Hệ Thống
 
 ```
-[Vẽ diagram kiến trúc ở đây]
+Raw legal/news data
+  ↓
+personal_submission/<folder cá nhân>/data/landing
+  ↓
+Task 3 convert markdown
+  ↓
+personal_submission/<folder cá nhân>/data/standardized
+  ↓
+Task 4 chunking/indexing
+  ↓
+Task 5 semantic search + Task 6 lexical search
+  ↓
+Task 9 hybrid retrieval + reranking + PageIndex fallback
+  ↓
+Task 10 generation with citation
+  ↓
+group_project/rag_adapter.py
+  ↓
+group_project/app.py Gradio Chat UI
 ```
+
+---
+
+## Data Cho Demo
+
+Hiện demo dùng data đã xử lý trong `personal_submission/<folder cá nhân>/data/standardized/`:
+
+- `legal/`: văn bản pháp luật về ma túy.
+- `news/`: bài báo đã crawl về nghệ sĩ liên quan đến ma túy.
+
+Khi có data của các thành viên khác, nhóm có thể merge thêm vào corpus bằng cách copy markdown đã chuẩn hóa vào cùng cấu trúc `legal/` hoặc `news/`, sau đó chạy lại indexing/retrieval ở phần cá nhân.
 
 ---
 
@@ -180,7 +210,7 @@ run_dashboard()
 
 | Thành viên | MSSV | Nhiệm vụ | Trạng thái |
 |-----------|------|----------|------------|
-| | | | |
+| Phạm Đình Phúc | 2A202600802 | Pipeline cá nhân, Gradio chatbot adapter/UI, source display | Done |
 | | | | |
 | | | | |
 | | | | |
@@ -191,12 +221,18 @@ run_dashboard()
 
 ```bash
 # Cài đặt dependencies
-pip install -r requirements.txt
+pip install -r "personal_submission/2A202600802 - Phạm Đình Phúc/requirements.txt"
+pip install -r group_project/requirements.txt
 
 # Chạy app
-streamlit run app.py
-# hoặc
-chainlit run app.py
+python group_project/app.py
+```
+
+Smoke test adapter:
+
+```bash
+cd group_project
+python -c "from rag_adapter import answer_question; print(answer_question('Luật phòng chống ma túy quy định gì?', top_k=2, use_reranking=False)['answer'])"
 ```
 
 ---
