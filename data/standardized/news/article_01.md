@@ -1,0 +1,8 @@
+# Ca sĩ Chi Dân, người mẫu An Tây bị tạm giữ vì ma túy
+
+**Source:** https://vnexpress.net/ca-si-chi-dan-nguoi-mau-an-tay-bi-tam-giu-vi-ma-tuy-4815967.html
+**Crawled:** 2026-06-08T15:11:17.823456
+
+---
+
+Ca sĩ Chi Dân và người mẫu An Tây (Andrea Aybar) vừa bị Công an quận Tân Bình, TP HCM tạm giữ vì nghi vấn liên quan đến việc sử dụng trái phép chất ma túy. Lực lượng chức năng phát hiện các đối tượng tại một căn hộ chung cư trên địa bàn...
