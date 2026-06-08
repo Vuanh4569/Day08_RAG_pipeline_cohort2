@@ -210,10 +210,10 @@ Khi có data của các thành viên khác, nhóm có thể merge thêm vào cor
 
 | Thành viên | MSSV | Nhiệm vụ | Trạng thái |
 |-----------|------|----------|------------|
-| Phạm Đình Phúc | 2A202600802 | Pipeline cá nhân, Gradio chatbot adapter/UI, source display | Done |
-| | | | |
-| | | | |
-| | | | |
+| Nguyễn Tuấn Anh | 2A202600758 | Bổ sung dữ liệu | Done |
+| Phạm Đình Phúc | 2A202600802 | Pipeline cá nhân, cải thiện pipeline, Gradio chatbot adapter/UI, source display | Done |
+| Hà Vũ Anh | 2A202600571 | Kết hợp mọi thứ lại, merge các nhánh và viết tài liệu nhóm | Done |
+
 
 ---
 
