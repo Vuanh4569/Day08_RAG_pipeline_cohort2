@@ -9,6 +9,14 @@ Yêu cầu:
     - Phải tương thích với embedding model và vector store ở Task 4
 """
 
+from __future__ import annotations
+
+import math
+from collections import Counter
+
+from .offline_retrieval import cosine_from_counters, get_chunks, tokenize
+from .task4_chunking_indexing import embed_chunks, embed_texts
+
 
 def semantic_search(query: str, top_k: int = 10) -> list[dict]:
     """
@@ -20,47 +28,46 @@ def semantic_search(query: str, top_k: int = 10) -> list[dict]:
 
     Returns:
         List of {
-            'content': str,      # Nội dung chunk
-            'score': float,      # Cosine similarity score
-            'metadata': dict     # source, doc_type, chunk_index
+            'content': str,
+            'score': float,
+            'metadata': dict
         }
         Sorted by score descending.
     """
-    # TODO: Implement semantic search
-    #
-    # Bước 1: Embed query bằng cùng model ở Task 4
-    # Bước 2: Query vector store (cosine similarity)
-    # Bước 3: Return top_k results
-    #
-    # Ví dụ với Weaviate:
-    # import weaviate
-    # from sentence_transformers import SentenceTransformer
-    #
-    # model = SentenceTransformer("BAAI/bge-m3")
-    # query_embedding = model.encode(query).tolist()
-    #
-    # client = weaviate.connect_to_local()
-    # collection = client.collections.get("DrugLawDocs")
-    #
-    # results = collection.query.near_vector(
-    #     near_vector=query_embedding,
-    #     limit=top_k,
-    #     return_metadata=MetadataQuery(distance=True)
-    # )
-    #
-    # return [
-    #     {
-    #         "content": obj.properties["content"],
-    #         "score": 1 - obj.metadata.distance,  # distance → similarity
-    #         "metadata": {"source": obj.properties["source"], ...}
-    #     }
-    #     for obj in results.objects
-    # ]
-    raise NotImplementedError("Implement semantic_search")
+    chunks = get_chunks()
+    if not chunks:
+        return []
+
+    query_embedding = embed_texts([query])[0]
+    embedded_chunks = embed_chunks(chunks)
+    query_counter = Counter(tokenize(query))
+
+    results = []
+    for chunk in embedded_chunks:
+        score = _cosine(query_embedding, chunk.get("embedding", []))
+        if score <= 0:
+            score = cosine_from_counters(query_counter, Counter(tokenize(chunk["content"])))
+        if score > 0:
+            results.append({
+                "content": chunk["content"],
+                "score": float(score),
+                "metadata": chunk["metadata"],
+            })
+    return sorted(results, key=lambda item: item["score"], reverse=True)[:top_k]
+
+
+def _cosine(left: list[float], right: list[float]) -> float:
+    if not left or not right or len(left) != len(right):
+        return 0.0
+    dot = sum(a * b for a, b in zip(left, right))
+    left_norm = math.sqrt(sum(a * a for a in left))
+    right_norm = math.sqrt(sum(b * b for b in right))
+    if not left_norm or not right_norm:
+        return 0.0
+    return dot / (left_norm * right_norm)
 
 
 if __name__ == "__main__":
-    # Test
     results = semantic_search("hình phạt cho tội tàng trữ ma tuý", top_k=5)
-    for r in results:
-        print(f"[{r['score']:.3f}] {r['content'][:100]}...")
+    for result in results:
+        print(f"[{result['score']:.3f}] {result['content'][:100]}...")

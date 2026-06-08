@@ -9,30 +9,13 @@ from typing import Any
 
 GROUP_DIR = Path(__file__).resolve().parent
 DAY08_DIR = GROUP_DIR.parent
-PERSONAL_ROOT = DAY08_DIR / "personal_submission"
+GROUP_SRC_DIR = DAY08_DIR / "src"
 
+if not (GROUP_SRC_DIR / "task9_retrieval_pipeline.py").exists():
+    raise ModuleNotFoundError("Cannot find group src/task9_retrieval_pipeline.py")
 
-def _find_personal_dir() -> Path:
-    preferred = PERSONAL_ROOT / "2A202600802 - Phạm Đình Phúc"
-    candidates = [preferred] if preferred.exists() else []
-    if PERSONAL_ROOT.exists():
-        candidates.extend(path for path in PERSONAL_ROOT.iterdir() if path.is_dir() and path != preferred)
-
-    for candidate in candidates:
-        src_dir = candidate / "src"
-        if (src_dir / "task9_retrieval_pipeline.py").exists() and (src_dir / "task10_generation.py").exists():
-            return candidate
-
-    raise ModuleNotFoundError(
-        "Cannot find a personal submission folder containing src/task9_retrieval_pipeline.py "
-        "and src/task10_generation.py."
-    )
-
-
-PERSONAL_DIR = _find_personal_dir()
-
-if str(PERSONAL_DIR) not in sys.path:
-    sys.path.insert(0, str(PERSONAL_DIR))
+if str(DAY08_DIR) not in sys.path:
+    sys.path.insert(0, str(DAY08_DIR))
 
 
 def answer_question(

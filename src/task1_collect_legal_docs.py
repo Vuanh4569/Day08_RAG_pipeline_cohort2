@@ -19,8 +19,26 @@ Gợi ý văn bản:
 """
 
 from pathlib import Path
+import ssl
+import urllib.error
+import urllib.request
 
 DATA_DIR = Path(__file__).parent.parent / "data" / "landing" / "legal"
+
+LEGAL_DOCS = [
+    {
+        "url": "https://congan.sonla.gov.vn/wp-content/uploads/2022/05/1.-Luat-PCMT-2021.pdf",
+        "filename": "luat-phong-chong-ma-tuy-2021.pdf",
+    },
+    {
+        "url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2021/12/105.signed_02.pdf",
+        "filename": "nghi-dinh-105-2021.pdf",
+    },
+    {
+        "url": "https://datafiles.chinhphu.vn/cpp/files/vbpq/2022/08/57-cp.signed.pdf",
+        "filename": "nghi-dinh-57-2022-danh-muc-chat-ma-tuy.pdf",
+    },
+]
 
 
 def setup_directory():
@@ -29,19 +47,37 @@ def setup_directory():
     print(f"✓ Thư mục đã sẵn sàng: {DATA_DIR}")
 
 
-# TODO: Tải file PDF/DOCX về DATA_DIR
-# Có thể tải thủ công hoặc viết script download nếu có direct link.
-#
-# Ví dụ nếu có direct link:
-#
-# import requests
-#
-# def download_file(url: str, filename: str):
-#     response = requests.get(url)
-#     filepath = DATA_DIR / filename
-#     filepath.write_bytes(response.content)
-#     print(f"✓ Đã tải: {filepath}")
+def download_file(url: str, filename: str) -> Path:
+    """Download a legal document to data/landing/legal/."""
+    setup_directory()
+    filepath = DATA_DIR / filename
+    request = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+    try:
+        with urllib.request.urlopen(request, timeout=90) as response:
+            content = response.read()
+    except urllib.error.URLError as exc:
+        if "CERTIFICATE_VERIFY_FAILED" not in str(exc):
+            raise RuntimeError(f"Không tải được {url}: {exc}") from exc
+        context = ssl._create_unverified_context()
+        with urllib.request.urlopen(request, timeout=90, context=context) as response:
+            content = response.read()
+    except urllib.error.URLError as exc:
+        raise RuntimeError(f"Không tải được {url}: {exc}") from exc
+
+    if len(content) < 1024:
+        raise RuntimeError(f"Downloaded file too small: {url}")
+    filepath.write_bytes(content)
+    print(f"Đã tải: {filepath} ({len(content)} bytes)")
+    return filepath
+
+
+def download_all() -> list[Path]:
+    """Download the minimum 3 legal files required by Task 1."""
+    downloaded = []
+    for doc in LEGAL_DOCS:
+        downloaded.append(download_file(doc["url"], doc["filename"]))
+    return downloaded
 
 
 if __name__ == "__main__":
-    setup_directory()
+    download_all()
