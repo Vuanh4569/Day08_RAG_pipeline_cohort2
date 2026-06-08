@@ -1,47 +1,83 @@
-import math
-from collections import Counter
+"""
+Task 6 — Lexical Search Module (BM25).
 
-from .local_rag_utils import load_chunks, tokenize
+Mặc định sử dụng BM25. Nếu dùng phương pháp khác (TF-IDF, Elasticsearch,
+Weaviate BM25 built-in), hãy giải thích cơ chế trong buổi demo → +5 bonus.
 
+Cài đặt:
+    pip install rank-bm25
 
-CORPUS: list[dict] = []
+BM25 hoạt động thế nào:
+    - Term Frequency (TF): từ xuất hiện nhiều trong document → điểm cao
+    - Inverse Document Frequency (IDF): từ hiếm → quan trọng hơn
+    - Document length normalization: document dài không bị ưu tiên quá mức
+    - Formula: score(q,d) = Σ IDF(qi) * (tf(qi,d) * (k1+1)) / (tf(qi,d) + k1*(1-b+b*|d|/avgdl))
+    - k1=1.5 (term saturation), b=0.75 (length normalization)
+"""
+
+from pathlib import Path
+
+# TODO: Load corpus từ data/standardized/ hoặc từ vector store
+CORPUS: list[dict] = []  # List of {'content': str, 'metadata': dict}
 
 
 def build_bm25_index(corpus: list[dict]):
-    tokenized = [tokenize(doc["content"]) for doc in corpus]
-    doc_freq = Counter()
-    for tokens in tokenized:
-        doc_freq.update(set(tokens))
-    avg_len = sum(len(tokens) for tokens in tokenized) / max(1, len(tokenized))
-    return {"tokenized": tokenized, "doc_freq": doc_freq, "avg_len": avg_len, "n": len(corpus)}
+    """
+    Xây dựng BM25 index từ corpus.
+
+    Args:
+        corpus: List of {'content': str, 'metadata': dict}
+    """
+    # TODO: Implement BM25 index
+    #
+    # from rank_bm25 import BM25Okapi
+    #
+    # # Tokenize - cho tiếng Việt nên dùng underthesea hoặc đơn giản split()
+    # tokenized_corpus = [doc["content"].lower().split() for doc in corpus]
+    # bm25 = BM25Okapi(tokenized_corpus)
+    # return bm25
+    raise NotImplementedError("Implement build_bm25_index")
 
 
 def lexical_search(query: str, top_k: int = 10) -> list[dict]:
-    corpus = CORPUS or load_chunks()
-    index = build_bm25_index(corpus)
-    query_terms = tokenize(query)
-    k1 = 1.5
-    b = 0.75
-    results = []
+    """
+    Tìm kiếm từ khóa sử dụng BM25.
 
-    for doc, tokens in zip(corpus, index["tokenized"]):
-        counts = Counter(tokens)
-        doc_len = len(tokens)
-        score = 0.0
-        for term in query_terms:
-            tf = counts.get(term, 0)
-            if tf == 0:
-                continue
-            df = index["doc_freq"][term]
-            idf = math.log(1 + (index["n"] - df + 0.5) / (df + 0.5))
-            denom = tf + k1 * (1 - b + b * doc_len / max(1, index["avg_len"]))
-            score += idf * (tf * (k1 + 1)) / denom
-        if score > 0:
-            results.append({**doc, "score": float(score)})
+    Args:
+        query: Câu truy vấn
+        top_k: Số lượng kết quả tối đa
 
-    return sorted(results, key=lambda item: item["score"], reverse=True)[:top_k]
+    Returns:
+        List of {
+            'content': str,
+            'score': float,      # BM25 score
+            'metadata': dict
+        }
+        Sorted by score descending.
+    """
+    # TODO: Implement lexical search
+    #
+    # tokenized_query = query.lower().split()
+    # scores = bm25.get_scores(tokenized_query)
+    #
+    # # Get top_k indices
+    # import numpy as np
+    # top_indices = np.argsort(scores)[::-1][:top_k]
+    #
+    # results = []
+    # for idx in top_indices:
+    #     if scores[idx] > 0:
+    #         results.append({
+    #             "content": CORPUS[idx]["content"],
+    #             "score": float(scores[idx]),
+    #             "metadata": CORPUS[idx]["metadata"]
+    #         })
+    # return results
+    raise NotImplementedError("Implement lexical_search")
 
 
 if __name__ == "__main__":
-    for result in lexical_search("Dieu 248 ma tuy", top_k=5):
-        print(f"[{result['score']:.3f}] {result['content'][:100]}...")
+    # Test
+    results = lexical_search("Điều 248 tàng trữ trái phép chất ma tuý", top_k=5)
+    for r in results:
+        print(f"[{r['score']:.3f}] {r['content'][:100]}...")
