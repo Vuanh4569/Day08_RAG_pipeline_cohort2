@@ -1,27 +1,73 @@
-import sys
-from pathlib import Path
+"""
+Task 5 — Semantic Search Module.
 
-# Add current folder to path to import import_helper
-_parent_dir = str(Path(__file__).resolve().parent)
-if _parent_dir not in sys.path:
-    sys.path.insert(0, _parent_dir)
+Viết module tìm kiếm ngữ nghĩa (dense retrieval) trên vector store.
 
-from import_helper import load_personal_module
+Yêu cầu:
+    - Input: query string + top_k
+    - Output: danh sách chunks có score, sorted descending
+    - Phải tương thích với embedding model và vector store ở Task 4
+"""
 
-# Load personal task module
-_module = load_personal_module("task5_semantic_search")
+from __future__ import annotations
 
-# Expose everything to the root namespace
-globals().update({k: v for k, v in _module.__dict__.items() if not k.startswith('_')})
+import math
+from collections import Counter
+
+from .offline_retrieval import cosine_from_counters, get_chunks, tokenize
+from .task4_chunking_indexing import embed_chunks, embed_texts
+
+
+def semantic_search(query: str, top_k: int = 10) -> list[dict]:
+    """
+    Tìm kiếm ngữ nghĩa sử dụng vector similarity.
+
+    Args:
+        query: Câu truy vấn
+        top_k: Số lượng kết quả tối đa
+
+    Returns:
+        List of {
+            'content': str,
+            'score': float,
+            'metadata': dict
+        }
+        Sorted by score descending.
+    """
+    chunks = get_chunks()
+    if not chunks:
+        return []
+
+    query_embedding = embed_texts([query])[0]
+    embedded_chunks = embed_chunks(chunks)
+    query_counter = Counter(tokenize(query))
+
+    results = []
+    for chunk in embedded_chunks:
+        score = _cosine(query_embedding, chunk.get("embedding", []))
+        if score <= 0:
+            score = cosine_from_counters(query_counter, Counter(tokenize(chunk["content"])))
+        if score > 0:
+            results.append({
+                "content": chunk["content"],
+                "score": float(score),
+                "metadata": chunk["metadata"],
+            })
+    return sorted(results, key=lambda item: item["score"], reverse=True)[:top_k]
+
+
+def _cosine(left: list[float], right: list[float]) -> float:
+    if not left or not right or len(left) != len(right):
+        return 0.0
+    dot = sum(a * b for a, b in zip(left, right))
+    left_norm = math.sqrt(sum(a * a for a in left))
+    right_norm = math.sqrt(sum(b * b for b in right))
+    if not left_norm or not right_norm:
+        return 0.0
+    return dot / (left_norm * right_norm)
+
 
 if __name__ == "__main__":
-    test_queries = [
-        "hình phạt cho tội tàng trữ ma tuý",
-        "nghệ sĩ Chi Dân bị bắt"
-    ]
-    for q in test_queries:
-        print(f"\nQuery: {q}")
-        print("-" * 50)
-        res = semantic_search(q, top_k=3)
-        for r in res:
-            print(f"[{r['score']:.4f}] {r['content'][:150]}...")
+    results = semantic_search("hình phạt cho tội tàng trữ ma tuý", top_k=5)
+    for result in results:
+        print(f"[{result['score']:.3f}] {result['content'][:100]}...")
