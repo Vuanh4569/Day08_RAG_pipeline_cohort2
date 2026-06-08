@@ -172,13 +172,13 @@ run_dashboard()
 ## Kiến Trúc Hệ Thống
 
 ```
-Raw legal/news data
+Group legal/news data
   ↓
-personal_submission/<folder cá nhân>/data/landing
+data/landing
   ↓
 Task 3 convert markdown
   ↓
-personal_submission/<folder cá nhân>/data/standardized
+data/standardized
   ↓
 Task 4 chunking/indexing
   ↓
@@ -197,12 +197,12 @@ group_project/app.py Gradio Chat UI
 
 ## Data Cho Demo
 
-Hiện demo dùng data đã xử lý trong `personal_submission/<folder cá nhân>/data/standardized/`:
+Hiện demo dùng data đã xử lý trong `data/standardized/` của repo nhóm:
 
 - `legal/`: văn bản pháp luật về ma túy.
 - `news/`: bài báo đã crawl về nghệ sĩ liên quan đến ma túy.
 
-Khi có data của các thành viên khác, nhóm có thể merge thêm vào corpus bằng cách copy markdown đã chuẩn hóa vào cùng cấu trúc `legal/` hoặc `news/`, sau đó chạy lại indexing/retrieval ở phần cá nhân.
+Khi có data của các thành viên khác, nhóm có thể merge thêm vào corpus bằng cách copy markdown đã chuẩn hóa vào cùng cấu trúc `data/standardized/legal/` hoặc `data/standardized/news/`. `group_project/rag_adapter.py` import trực tiếp pipeline trong `src/` của repo nhóm, không phụ thuộc vào thư mục cá nhân.
 
 ---
 
@@ -221,7 +221,7 @@ Khi có data của các thành viên khác, nhóm có thể merge thêm vào cor
 
 ```bash
 # Cài đặt dependencies
-pip install -r "personal_submission/2A202600802 - Phạm Đình Phúc/requirements.txt"
+pip install -r requirements.txt
 pip install -r group_project/requirements.txt
 
 # Chạy app

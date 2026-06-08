@@ -1,0 +1,45 @@
+"""
+Helper to dynamically import tasks from personal submission directories,
+allowing the root-level scripts to delegate execution to the active student's code.
+"""
+
+import sys
+import importlib.util
+from pathlib import Path
+
+def load_personal_module(task_name: str):
+    """
+    Finds and imports a module from the personal submissions folder dynamically.
+    Prioritizes Vu Anh's folder locally, and falls back to other members if not found.
+    """
+    personal_root = Path(__file__).resolve().parent.parent / "personal_submission"
+    
+    # Prioritized folder candidate list
+    candidates = [
+        "2A202600571 - Hà Vũ Anh",
+        "2A202600802 - Phạm Đình Phúc",
+        "2A202600758-NguyenTuanAnh-Day08",
+        "cung"
+    ]
+    
+    for c in candidates:
+        candidate_path = personal_root / c
+        src_dir = candidate_path / "src"
+        file_path = src_dir / f"{task_name}.py"
+        
+        if file_path.exists():
+            # Add personal src to sys.path so relative imports inside the module work
+            if str(src_dir) not in sys.path:
+                sys.path.insert(0, str(src_dir))
+                
+            # Create module spec and load it
+            spec = importlib.util.spec_from_file_location(task_name, str(file_path))
+            if spec is not None and spec.loader is not None:
+                module = importlib.util.module_from_spec(spec)
+                # Ensure the module is registered under the correct name in sys.modules
+                sys.modules[task_name] = module
+                sys.modules[f"src.{task_name}"] = module
+                spec.loader.exec_module(module)
+                return module
+                
+    raise ModuleNotFoundError(f"Could not find personal submission for {task_name}")
