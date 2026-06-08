@@ -1,0 +1,6 @@
+{
+  "url": "https://example.com/news/artist-drug-case-05",
+  "title": "Cach chatbot RAG nen tra loi ve vu viec nghe si va ma tuy",
+  "date_crawled": "2026-06-08T00:00:00",
+  "content": "Bai viet mo phong du lieu tin tuc cho bai lab Day08. Khi nguoi dung hoi ve nghe si nao bi bat vi ma tuy, chatbot can tra loi dua tren source co trong context, neu khong co ten cu the thi phai noi khong the xac minh. Noi dung nay ho tro test generation co citation va fallback khi retrieval score thap. Phan bo sung: evaluation nen do faithfulness, answer relevance, context recall va context precision de dam bao cau tra loi bam dung tai lieu."
+}

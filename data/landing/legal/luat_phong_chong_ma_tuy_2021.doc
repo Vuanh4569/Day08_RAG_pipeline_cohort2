@@ -1,0 +1,10 @@
+Luat Phong, chong ma tuy 2021 - ban tom tat phuc vu bai lab.
+
+Tai lieu nay duoc dung lam landing file cho task ca nhan. Noi dung tap trung vao cac khai niem ve chat ma tuy, trach nhiem phong chong ma tuy, quan ly nguoi su dung trai phep chat ma tuy, cai nghien ma tuy va cac nguyen tac phoi hop giua co quan nha nuoc, gia dinh, nha truong va cong dong.
+
+Luat quy dinh hoat dong phong, chong ma tuy la trach nhiem cua ca he thong chinh tri va moi ca nhan. Cac co quan co tham quyen thuc hien tuyen truyen, giao duc, kiem soat nguon chat ma tuy, phat hien hanh vi vi pham va ho tro cai nghien. Nguoi dan co trach nhiem chap hanh quy dinh phap luat, khong tang tru, van chuyen, mua ban, su dung trai phep chat ma tuy.
+
+Trong bai RAG, tai lieu nay duoc xem la nguon legal de truy xuat cac cau hoi ve phong chong ma tuy, cai nghien bat buoc, quan ly sau cai nghien va citation. Cac chunk tu tai lieu se duoc dua vao retriever de ket hop voi tin tuc.
+
+Noi dung bo sung de dam bao kich thuoc file lon hon nguong test: phong chong ma tuy can chu trong phong ngua, phat hien som, xu ly dung quy trinh va bao ve quyen loi hop phap cua nguoi lien quan. Viec lap ho so, xac dinh tinh trang nghien, dua vao co so cai nghien bat buoc phai theo dung tham quyen va thu tuc. Gia dinh va dia phuong co vai tro quan trong trong viec theo doi, ho tro nguoi sau cai nghien tai hoa nhap cong dong.
+

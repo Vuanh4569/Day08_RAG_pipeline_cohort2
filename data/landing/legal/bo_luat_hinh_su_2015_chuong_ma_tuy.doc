@@ -1,0 +1,9 @@
+Bo luat Hinh su 2015 sua doi 2017 - chuong ve cac toi pham ma tuy.
+
+Tai lieu tom tat nay duoc dung cho bai lab RAG. Noi dung tap trung vao cac toi danh lien quan den ma tuy nhu tang tru, van chuyen, mua ban trai phep chat ma tuy, to chuc su dung trai phep chat ma tuy va cac tinh tiet anh huong den hinh phat. Van ban goc can duoc doi chieu khi trich dan chinh thuc.
+
+Trong pipeline, day la nguon legal quan trong cho cac cau hoi ve hinh phat. Vi du truy van "hinh phat tang tru trai phep chat ma tuy" can uu tien truy xuat cac chunk co cum tu hinh phat, tang tru, trai phep va chat ma tuy. Ket qua generation can co citation ve source de nguoi dung biet thong tin duoc lay tu dau.
+
+Noi dung bo sung de dat nguong test: cac toi pham ve ma tuy thuong duoc phan hoa theo hanh vi, khoi luong, tinh chat nguy hiem, vai tro cua nguoi pham toi va cac tinh tiet tang nang hoac giam nhe. Viec tra loi tu dong khong thay the tu van phap ly; chatbot chi nen cung cap thong tin tham khao dua tren context da truy xuat.
+
+Bo sung: hinh phat va toi danh can duoc doi chieu voi van ban goc truoc khi su dung trong tinh huong thuc te.
